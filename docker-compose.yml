@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: devpilot-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: devpilot_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: devpilot-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/devpilot_db?schema=public"
+      JWT_SECRET: "your-super-secret-jwt-key"
+      JWT_EXPIRES_IN: "24h"
+      NODE_ENV: "development"
+    depends_on:
+      - db
+    volumes:
+      - uploads:/app/server/uploads
+
+  fastapi:
+    build:
+      context: ./fastapi-server
+      dockerfile: Dockerfile
+    container_name: devpilot-fastapi
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      GEMINI_API_KEY: ""
+    volumes:
+      - uploads:/app/server/uploads
+
+  frontend:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    container_name: devpilot-frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+      - fastapi
+
+volumes:
+  pgdata:
+  uploads:

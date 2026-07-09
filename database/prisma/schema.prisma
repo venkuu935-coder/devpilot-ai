@@ -1,0 +1,81 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id         String      @id @default(uuid())
+  username   String      @unique
+  email      String      @unique
+  password   String
+  role       String      @default("Developer") // "Admin" or "Developer"
+  resetToken String?     @unique
+  resetTokenExpires DateTime?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  workspaces Workspace[]
+  members    WorkspaceMember[]
+  sessions   Session[]
+  projects   Project[]
+}
+
+model Workspace {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  isArchived  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  members     WorkspaceMember[]
+}
+
+model WorkspaceMember {
+  id          String    @id @default(uuid())
+  workspaceId String
+  userId      String
+  role        String    @default("Viewer") // "Owner", "Editor", "Viewer"
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  joinedAt    DateTime  @default(now())
+
+  @@unique([workspaceId, userId])
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+  id                String   @id @default(uuid())
+  name              String
+  description       String?
+  sourceType        String   // "zip" or "github"
+  sourceUrl         String?
+  filePath          String?  // path on disk
+  status            String   @default("Uploaded") // "Uploaded", "Validating", "Active", "Failed"
+  validationErrors  String?
+  fileCount         Int      @default(0)
+  totalSize         Int      @default(0)
+  detectedLanguage  String?
+  detectedFramework String?
+  dependencies      String?  // JSON string of dependencies
+  detectedDatabase  String?
+  apiFramework      String?
+  summary           String?
+  fileStructure     String?  // JSON string of paths
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

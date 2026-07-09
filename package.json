@@ -1,0 +1,19 @@
+{
+  "name": "devpilot-ai-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "build:shared": "npm run build --prefix shared",
+    "build:server": "npm run build --prefix server",
+    "build:client": "npm run build --prefix client",
+    "build:all": "npm run build:shared && npm run build:server && npm run build:client",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client"
+  }
+}
