@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Bell, Check, Trash2, CheckCircle2, AlertCircle, Info } from 'lucide-react';
+import { Search, Bell, Check, Trash2, CheckCircle2, AlertCircle, Info, LogOut, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.tsx';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -48,13 +48,15 @@ const defaultNotifications: Notification[] = [
 ];
 
 export const Navbar: React.FC = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [notifications, setNotifications] = useState<Notification[]>(() => {
     const saved = localStorage.getItem('app_notifications');
     return saved ? JSON.parse(saved) : defaultNotifications;
   });
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
 
   // Sync to local storage
   useEffect(() => {
@@ -66,6 +68,9 @@ export const Navbar: React.FC = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -222,14 +227,42 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* User profile dropdown snippet */}
-        <div className="flex items-center space-x-3 pl-6 border-l border-white/10 cursor-pointer group">
-          <div className="flex flex-col items-end">
-            <span className="text-sm font-bold text-slate-200 group-hover:text-white transition-colors">{user?.username || 'Developer'}</span>
-            <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider">{user?.role || 'Guest'}</span>
+        <div ref={profileRef} className="relative">
+          <div 
+            onClick={() => setIsProfileOpen(!isProfileOpen)}
+            className="flex items-center space-x-3 pl-6 border-l border-white/10 cursor-pointer group"
+          >
+            <div className="flex flex-col items-end">
+              <span className="text-sm font-bold text-slate-200 group-hover:text-white transition-colors">{user?.username || 'Developer'}</span>
+              <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider">{user?.role || 'Guest'}</span>
+            </div>
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-indigo-500/20 ring-2 ring-white/10 group-hover:ring-indigo-400 transition-all">
+              {user?.username?.slice(0, 2).toUpperCase() || 'DP'}
+            </div>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-indigo-500/20 ring-2 ring-white/10 group-hover:ring-indigo-400 transition-all">
-            {user?.username?.slice(0, 2).toUpperCase() || 'DP'}
-          </div>
+          
+          <AnimatePresence>
+            {isProfileOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="absolute right-0 mt-4 w-48 bg-slate-950 border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 text-slate-200"
+              >
+                <div className="p-2 flex flex-col gap-1">
+                  <button onClick={() => { setIsProfileOpen(false); }} className="flex items-center space-x-2 w-full px-3 py-2 text-sm text-slate-300 hover:bg-slate-900 rounded-xl transition-colors">
+                    <User className="h-4 w-4" />
+                    <span>Profile</span>
+                  </button>
+                  <button onClick={() => { setIsProfileOpen(false); logout(); }} className="flex items-center space-x-2 w-full px-3 py-2 text-sm text-rose-400 hover:bg-rose-500/10 rounded-xl transition-colors">
+                    <LogOut className="h-4 w-4" />
+                    <span>Log Out</span>
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </motion.header>

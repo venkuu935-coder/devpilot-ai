@@ -4,6 +4,233 @@
 
 @layer base {
   body {
-    @apply bg-slate-950 text-slate-100;
+    @apply bg-slate-950 text-slate-100 transition-colors duration-300;
   }
+}
+
+/* Custom scrollbar styles for a premium look */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.45);
+}
+
+/* ==========================================================================
+   LIGHT CONTRAST THEME OVERRIDES (.light-theme-mock)
+   ========================================================================== */
+.light-theme-mock {
+  background-color: #f8fafc !important;
+}
+
+.light-theme-mock body,
+.light-theme-mock #root,
+.light-theme-mock .bg-slate-950,
+.light-theme-mock .bg-slate-900,
+.light-theme-mock .bg-slate-955,
+.light-theme-mock .bg-slate-950\/40,
+.light-theme-mock .bg-slate-900\/60,
+.light-theme-mock .bg-slate-900\/30,
+.light-theme-mock .bg-slate-800,
+.light-theme-mock .bg-slate-955,
+.light-theme-mock .bg-slate-950\/80 {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.light-theme-mock .bg-slate-950\/40 {
+  background-color: #f1f5f9 !important;
+}
+
+.light-theme-mock .text-slate-100,
+.light-theme-mock .text-slate-200,
+.light-theme-mock .text-slate-250,
+.light-theme-mock .text-slate-300,
+.light-theme-mock .text-slate-350,
+.light-theme-mock .text-slate-400,
+.light-theme-mock h1,
+.light-theme-mock h2,
+.light-theme-mock h3,
+.light-theme-mock h4,
+.light-theme-mock h5 {
+  color: #0f172a !important;
+}
+
+/* Specific text gradient override for light mode */
+.light-theme-mock .bg-clip-text {
+  background-image: linear-gradient(to right, #0f172a, #475569) !important;
+  color: transparent !important;
+}
+
+.light-theme-mock .text-slate-500,
+.light-theme-mock .text-slate-550 {
+  color: #475569 !important;
+}
+
+.light-theme-mock .text-indigo-300,
+.light-theme-mock .text-indigo-400,
+.light-theme-mock .text-indigo-500 {
+  color: #4f46e5 !important;
+}
+
+.light-theme-mock .border-white\/5,
+.light-theme-mock .border-white\/10,
+.light-theme-mock .border-slate-800,
+.light-theme-mock .border-white\/20,
+.light-theme-mock border {
+  border-color: #e2e8f0 !important;
+}
+
+.light-theme-mock input,
+.light-theme-mock textarea,
+.light-theme-mock select {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.light-theme-mock input::placeholder,
+.light-theme-mock textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+.light-theme-mock .bg-indigo-650\/15 {
+  background-color: rgba(79, 70, 229, 0.08) !important;
+  border-color: #4f46e5 !important;
+}
+
+.light-theme-mock .hover\:bg-slate-900\/60:hover,
+.light-theme-mock .hover\:bg-slate-950\/40:hover {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.light-theme-mock .hover\:text-white:hover,
+.light-theme-mock .hover\:text-slate-200:hover {
+  color: #4f46e5 !important;
+}
+
+.light-theme-mock ::-webkit-scrollbar-thumb {
+  background: rgba(79, 70, 229, 0.25) !important;
+}
+
+.light-theme-mock ::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 70, 229, 0.45) !important;
+}
+
+
+/* ==========================================================================
+   CYBER SYNTH THEME OVERRIDES (.cyberpunk-theme-mock)
+   ========================================================================== */
+.cyberpunk-theme-mock {
+  background-color: #05020a !important;
+}
+
+.cyberpunk-theme-mock body,
+.cyberpunk-theme-mock #root,
+.cyberpunk-theme-mock .bg-slate-950,
+.cyberpunk-theme-mock .bg-slate-900,
+.cyberpunk-theme-mock .bg-slate-950\/40,
+.cyberpunk-theme-mock .bg-slate-900\/60,
+.cyberpunk-theme-mock .bg-slate-900\/30,
+.cyberpunk-theme-mock .bg-slate-800,
+.cyberpunk-theme-mock .bg-slate-950\/80 {
+  background-color: #0b0518 !important;
+  color: #00ffff !important;
+  text-shadow: 0 0 2px rgba(0, 255, 255, 0.3);
+}
+
+.cyberpunk-theme-mock .bg-slate-950\/40 {
+  background-color: #120924 !important;
+  box-shadow: 0 0 15px rgba(255, 0, 127, 0.08), inset 0 0 10px rgba(0, 255, 255, 0.02) !important;
+}
+
+.cyberpunk-theme-mock .text-slate-100,
+.cyberpunk-theme-mock .text-slate-200,
+.cyberpunk-theme-mock .text-slate-250,
+.cyberpunk-theme-mock .text-slate-300,
+.cyberpunk-theme-mock h1,
+.cyberpunk-theme-mock h2,
+.cyberpunk-theme-mock h3,
+.cyberpunk-theme-mock h4,
+.cyberpunk-theme-mock h5 {
+  color: #00ffff !important; /* Neon Cyan */
+}
+
+/* Specific text gradient override for cyberpunk mode */
+.cyberpunk-theme-mock .bg-clip-text {
+  background-image: linear-gradient(to right, #ff007f, #00ffff) !important;
+  color: transparent !important;
+}
+
+.cyberpunk-theme-mock .text-slate-350,
+.cyberpunk-theme-mock .text-slate-400,
+.cyberpunk-theme-mock .text-slate-550 {
+  color: #ff007f !important; /* Hot Pink */
+  text-shadow: 0 0 2px rgba(255, 0, 127, 0.3);
+}
+
+.cyberpunk-theme-mock .text-indigo-300,
+.cyberpunk-theme-mock .text-indigo-400,
+.cyberpunk-theme-mock .text-indigo-500 {
+  color: #00ffff !important;
+}
+
+.cyberpunk-theme-mock .border-white\/5,
+.cyberpunk-theme-mock .border-white\/10,
+.cyberpunk-theme-mock .border-slate-800,
+.cyberpunk-theme-mock .border-white\/20,
+.cyberpunk-theme-mock border {
+  border-color: rgba(255, 0, 127, 0.3) !important;
+}
+
+.cyberpunk-theme-mock input,
+.cyberpunk-theme-mock textarea,
+.cyberpunk-theme-mock select {
+  background-color: #05020a !important;
+  border-color: #ff007f !important;
+  color: #00ffff !important;
+  box-shadow: 0 0 5px rgba(255, 0, 127, 0.2) !important;
+}
+
+.cyberpunk-theme-mock input::placeholder,
+.cyberpunk-theme-mock textarea::placeholder {
+  color: rgba(0, 255, 255, 0.4) !important;
+}
+
+.cyberpunk-theme-mock .bg-indigo-650\/15 {
+  background-color: rgba(255, 0, 127, 0.12) !important;
+  border-color: #ff007f !important;
+  box-shadow: 0 0 10px rgba(255, 0, 127, 0.3) !important;
+}
+
+.cyberpunk-theme-mock .hover\:bg-slate-900\/60:hover,
+.cyberpunk-theme-mock .hover\:bg-slate-950\/40:hover {
+  background-color: #170d2c !important;
+  color: #00ffff !important;
+  border-color: #00ffff !important;
+}
+
+.cyberpunk-theme-mock .hover\:text-white:hover,
+.cyberpunk-theme-mock .hover\:text-slate-200:hover {
+  color: #ff007f !important;
+}
+
+.cyberpunk-theme-mock ::-webkit-scrollbar-thumb {
+  background: rgba(255, 0, 127, 0.25) !important;
+}
+
+.cyberpunk-theme-mock ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 0, 127, 0.45) !important;
 }

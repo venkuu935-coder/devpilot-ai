@@ -216,8 +216,12 @@ export const createProjectFromZip = async (req: AuthenticatedRequest, res: Respo
     return res.status(201).json({ success: true, data: result });
   } catch (error: any) {
     // Cleanup extraction folder if error occurred
-    if (fs.existsSync(destDir)) {
-      fs.rmSync(destDir, { recursive: true, force: true });
+    try {
+      if (fs.existsSync(destDir)) {
+        fs.rmSync(destDir, { recursive: true, force: true, maxRetries: 5 });
+      }
+    } catch (cleanupError) {
+      console.error('Failed to clean up destDir:', cleanupError);
     }
     if (fs.existsSync(file.path)) {
       fs.unlinkSync(file.path);
@@ -368,8 +372,13 @@ export const createProjectFromGithub = async (req: AuthenticatedRequest, res: Re
 
     return res.status(201).json({ success: true, data: result });
   } catch (error: any) {
-    if (fs.existsSync(destDir)) {
-      fs.rmSync(destDir, { recursive: true, force: true });
+    console.error('Error during GitHub project creation:', error);
+    try {
+      if (fs.existsSync(destDir)) {
+        fs.rmSync(destDir, { recursive: true, force: true, maxRetries: 5 });
+      }
+    } catch (cleanupError) {
+      console.error('Failed to clean up destDir:', cleanupError);
     }
     if (fs.existsSync(tempZipPath)) {
       fs.unlinkSync(tempZipPath);
@@ -486,8 +495,12 @@ export const deleteProject = async (req: AuthenticatedRequest, res: Response) =>
     }
 
     // Delete extracted files from disk
-    if (filePath && fs.existsSync(filePath)) {
-      fs.rmSync(filePath, { recursive: true, force: true });
+    try {
+      if (filePath && fs.existsSync(filePath)) {
+        fs.rmSync(filePath, { recursive: true, force: true, maxRetries: 5 });
+      }
+    } catch (cleanupError) {
+      console.error('Failed to clean up filePath:', cleanupError);
     }
 
     return res.json({ success: true, message: 'Project deleted successfully' });

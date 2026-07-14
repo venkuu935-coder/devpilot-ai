@@ -266,6 +266,7 @@ export const AIChat: React.FC = () => {
     if (!text.trim() || loading || !selectedProjectId) return;
 
     let currentThread = activeThread;
+    let localThreads = [...threads];
     
     // Create thread if none is active
     if (!currentThread) {
@@ -282,7 +283,7 @@ export const AIChat: React.FC = () => {
       };
 
       currentThread = newThread;
-      saveThreads([newThread, ...threads]);
+      localThreads = [newThread, ...localThreads];
       setActiveThreadId(newThread.id);
     }
 
@@ -299,8 +300,8 @@ export const AIChat: React.FC = () => {
       updatedAt: new Date().toISOString()
     };
 
-    const updatedThreadsWithUser = threads.map(t => t.id === currentThread!.id ? threadWithUserMsg : t);
-    saveThreads(updatedThreadsWithUser);
+    localThreads = localThreads.map(t => t.id === currentThread!.id ? threadWithUserMsg : t);
+    saveThreads(localThreads);
     setInputMessage('');
     setLoading(true);
     setStreamingResponse('');
@@ -361,7 +362,7 @@ export const AIChat: React.FC = () => {
         updatedAt: new Date().toISOString()
       };
 
-      const finalThreads = threads.map(t => t.id === currentThread!.id ? finalThread : t);
+      const finalThreads = localThreads.map(t => t.id === currentThread!.id ? finalThread : t);
       saveThreads(finalThreads);
       setStreamingResponse('');
     } catch (err: any) {
@@ -377,7 +378,7 @@ export const AIChat: React.FC = () => {
         ...threadWithUserMsg,
         messages: [...threadWithUserMsg.messages, errorMsg]
       };
-      saveThreads(threads.map(t => t.id === currentThread!.id ? errorThread : t));
+      saveThreads(localThreads.map(t => t.id === currentThread!.id ? errorThread : t));
     } finally {
       setLoading(false);
     }

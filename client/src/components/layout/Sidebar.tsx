@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Compass, LayoutDashboard, Settings, User, Code2, Zap, FileText, ShieldAlert, Shield, FileCode, GitBranch, ShieldCheck } from 'lucide-react';
+import { Compass, LayoutDashboard, Settings, User, Code2, Zap, FileText, ShieldAlert, Shield, FileCode, GitBranch, ShieldCheck, Info, LifeBuoy } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const Sidebar: React.FC = () => {
@@ -16,6 +16,8 @@ export const Sidebar: React.FC = () => {
     { name: 'Admin Panel', path: '/admin', icon: ShieldCheck },
     { name: 'Profile', path: '/profile', icon: User },
     { name: 'Settings', path: '/settings', icon: Settings },
+    { name: 'About Us', path: '/about', icon: Info },
+    { name: 'Support', path: '/support', icon: LifeBuoy },
   ];
 
   return (
@@ -34,7 +36,7 @@ export const Sidebar: React.FC = () => {
         </span>
       </div>
       
-      <nav className="flex-1 p-4 space-y-1.5 mt-4">
+      <nav className="flex-1 p-4 space-y-1.5 mt-4 overflow-y-auto overflow-x-hidden min-h-0">
         {menuItems.map((item, i) => {
           const Icon = item.icon;
           return (
@@ -46,6 +48,7 @@ export const Sidebar: React.FC = () => {
             >
               <NavLink
                 to={item.path}
+                end={item.path === '/'}
                 className={({ isActive }) =>
                   `flex items-center space-x-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 ${
                     isActive

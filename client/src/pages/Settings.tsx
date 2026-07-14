@@ -82,11 +82,11 @@ export const Settings: React.FC = () => {
   const handleSaveTheme = (theme: string) => {
     setActiveTheme(theme);
     localStorage.setItem('settings_theme', theme);
-    // Mock theme apply toggle
+    document.documentElement.classList.remove('light-theme-mock', 'cyberpunk-theme-mock');
     if (theme === 'light') {
       document.documentElement.classList.add('light-theme-mock');
-    } else {
-      document.documentElement.classList.remove('light-theme-mock');
+    } else if (theme === 'cyberpunk') {
+      document.documentElement.classList.add('cyberpunk-theme-mock');
     }
     triggerSaveNotification();
   };

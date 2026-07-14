@@ -8,19 +8,24 @@ generator client {
 }
 
 model User {
-  id         String      @id @default(uuid())
-  username   String      @unique
-  email      String      @unique
-  password   String
-  role       String      @default("Developer") // "Admin" or "Developer"
-  resetToken String?     @unique
-  resetTokenExpires DateTime?
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  workspaces Workspace[]
-  members    WorkspaceMember[]
-  sessions   Session[]
-  projects   Project[]
+  id                    String            @id @default(uuid())
+  username              String            @unique
+  email                 String            @unique
+  password              String
+  role                  String            @default("Developer") // "Admin" or "Developer"
+  resetToken            String?           @unique
+  resetTokenExpires     DateTime?
+  isVerified            Boolean           @default(false)
+  verificationToken     String?           @unique
+  verificationTokenExpires DateTime?
+  twoFactorCode         String?
+  twoFactorExpires      DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  workspaces            Workspace[]
+  members               WorkspaceMember[]
+  sessions              Session[]
+  projects              Project[]
 }
 
 model Workspace {

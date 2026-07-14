@@ -6,6 +6,7 @@ import { Login } from '../pages/Login.tsx';
 import { Register } from '../pages/Register.tsx';
 import { ForgotPassword } from '../pages/ForgotPassword.tsx';
 import { ResetPassword } from '../pages/ResetPassword.tsx';
+import { VerifyEmail } from '../pages/VerifyEmail.tsx';
 import { Profile } from '../pages/Profile.tsx';
 import { Settings } from '../pages/Settings.tsx';
 import { Projects } from '../pages/Projects.tsx';
@@ -17,6 +18,8 @@ import { TestGenerator } from '../pages/TestGenerator.tsx';
 import { DiagramGenerator } from '../pages/DiagramGenerator.tsx';
 import { AdminPanel } from '../pages/AdminPanel.tsx';
 import { NotFound } from '../pages/NotFound.tsx';
+import { AboutUs } from '../pages/AboutUs.tsx';
+import { Support } from '../pages/Support.tsx';
 import { ErrorBoundary } from '../components/layout/ErrorBoundary.tsx';
 import { Sidebar } from '../components/layout/Sidebar.tsx';
 import { Navbar } from '../components/layout/Navbar.tsx';
@@ -27,7 +30,7 @@ const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-955 bg-slate-950 flex items-center justify-center">
         <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -42,7 +45,7 @@ const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-955 bg-slate-950 flex items-center justify-center">
         <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -71,6 +74,8 @@ const AppLayout: React.FC = () => {
               <Route path="/admin" element={<AdminPanel />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/about" element={<AboutUs />} />
+              <Route path="/support" element={<Support />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ErrorBoundary>
@@ -113,6 +118,14 @@ export const AppRouter: React.FC = () => {
         element={
           <PublicRoute>
             <ResetPassword />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/verify-email"
+        element={
+          <PublicRoute>
+            <VerifyEmail />
           </PublicRoute>
         }
       />
